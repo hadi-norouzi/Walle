@@ -5,9 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.walle.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseCoinPage(navController: NavController) {
 
@@ -28,12 +29,24 @@ fun ChooseCoinPage(navController: NavController) {
             TopAppBar(
                 title = {
                     Text("Choose Currency")
-                }
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        },
+                    ) {
+                        Icon(Icons.Filled.ArrowBack, "backIcon")
+                    }
+                },
             )
-        }
-    ) {
+        },
+
+        ) {
         Column(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier
+                .padding(12.dp)
+                .padding(it)
         ) {
 
             Row(
@@ -41,9 +54,8 @@ fun ChooseCoinPage(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(Color.Gray)
                     .clickable {
-                        navController.navigate("/phrase/import")
+                        navController.navigate("/phrase/import?type=Bitcoin")
                     }
                     .padding(12.dp)
 

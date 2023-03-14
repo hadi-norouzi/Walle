@@ -1,82 +1,46 @@
-package com.example.walle.features.home
+package com.example.walle.features.home.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
-import androidx.navigation.Navigation
+import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.walle.BottomNavItem
 import com.example.walle.features.discover.DiscoverPage
 import com.example.walle.features.settings.SettingsPage
+import com.example.walle.features.settings.WalletsPage
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.walle.features.wallet.presentation.WalletPage
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage(navController: NavController) {
+fun HomePage(navController: NavController, viewModel: HomeViewModel = viewModel()) {
     val homeNavController = rememberNavController()
+
+
+    val currentDestination: NavDestination? = homeNavController.currentBackStackEntryAsState().value?.destination
+
+    val currentTopLevelDestination: TopLevelDestination? = null
+//        @Composable get() = when(currentDestination?.route) {
+//
+//        }
     Scaffold(
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         bottomBar = {
-            BottomNavigation {
-
-
-                val items = listOf(
-                    BottomNavItem.Wallet,
-                    BottomNavItem.Discover,
-                    BottomNavItem.Settings,
-                )
-
-                val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
-                val currentRoute = navBackStackEntry?.destination?.route
-
-                items.forEach { item ->
-                    BottomNavigationItem(
-                        icon = {
-                            Icon(
-                                painterResource(id = item.icon),
-                                contentDescription = item.title,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = item.title,
-                                fontSize = 9.sp
-                            )
-                        },
-                        modifier = Modifier.background(Color.Gray),
-//                        selectedContentColor = Color.Black,
-//                        unselectedContentColor = Color.Black.copy(0.4f),
-//                        alwaysShowLabel = true,
-                        selected = currentRoute == item.screenRoute,
-                        onClick = {
-                            homeNavController.navigate(item.screenRoute) {
-
-                                homeNavController.graph.startDestinationRoute?.let { screen_route ->
-                                    popUpTo(screen_route) {
-                                        saveState = true
-                                    }
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                    )
-
+            WalleBottomBar(
+                modifier = Modifier.background(MaterialTheme.colorScheme.onBackground),
+                destination = TopLevelDestination.values().asList(),
+                currentDestination = currentDestination,
+                onNavigateToDestination = {
+                    viewModel.navigateBottomBar(it, homeNavController)
                 }
-            }
+            )
         }
     ) {
 
@@ -86,14 +50,17 @@ fun HomePage(navController: NavController) {
             startDestination = "/wallet",
             modifier = Modifier.padding(it),
         ) {
-            composable(BottomNavItem.Wallet.screenRoute) {
+            composable("/wallet") {
                 WalletPage()
             }
-            composable(BottomNavItem.Discover.screenRoute) {
+            composable("/discover") {
                 DiscoverPage()
             }
-            composable(BottomNavItem.Settings.screenRoute) {
-                SettingsPage()
+            composable("/settings") {
+                SettingsPage(homeNavController)
+            }
+            composable("/wallets") {
+                WalletsPage()
             }
         }
     }

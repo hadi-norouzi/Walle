@@ -3,11 +3,11 @@ package com.example.walle.features.import.presentation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.TextFieldDefaults.textFieldColors
+import androidx.compose.material3.*
+import androidx.compose.material3.TextFieldDefaults.textFieldColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,20 +17,38 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.material.OutlinedButton as MaterialOutlinedButton
-import androidx.compose.material.TextField as MaterialTextField
+import kotlinx.coroutines.flow.asStateFlow
+import androidx.compose.material3.OutlinedButton as MaterialOutlinedButton
+import androidx.compose.material3.TextField as MaterialTextField
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImportWalletPage(navController: NavController, iso: String?) {
+fun ImportWalletPage(
+    navController: NavController,
+    iso: String?,
+    viewModel: ImportViewModel = viewModel()
+) {
 
-    val viewModel: ImportViewModel = viewModel()
+    val state = viewModel.state.collectAsState().value
+
+    val phraseError by remember { mutableStateOf(viewModel.validatePhrases()) }
+
+    if (state is ImportState.Success) {
+
+        LaunchedEffect(Unit) {
+            navController.navigate("/home") {
+                popUpTo("/intro") { inclusive = true }
+            }
+        }
+    }
+
 
     Scaffold(
         topBar = {
 
             TopAppBar(
                 title = {
-                    Text("Import ${iso ?: "Bitcoin"}")
+                    Text("Import $iso")
                 },
                 navigationIcon = {
                     IconButton(
@@ -55,7 +73,7 @@ fun ImportWalletPage(navController: NavController, iso: String?) {
             )
         }
     ) {
-        Column(modifier = Modifier.padding(it)) {
+        Column(modifier = Modifier.padding(it).padding(16.dp)) {
             MaterialTextField(
                 value = viewModel.walletName,
                 onValueChange = {
@@ -101,20 +119,24 @@ fun ImportWalletPage(navController: NavController, iso: String?) {
                             .padding(end = 12.dp),
                     )
                 },
+                isError = phraseError,
                 placeholder = {
                     Text("Phrase")
                 },
             )
+            Text("Insert 12 or 24 word phrases")
             MaterialOutlinedButton(
                 onClick = {
                     if (viewModel.validatePhrases()) {
-                        navController.navigate("/home") {
-                            popUpTo("/home")
-                        }
+                        viewModel.importWallet()
                     }
                 },
             ) {
-                Text("Import")
+                if (state is ImportState.Loading) {
+                    CircularProgressIndicator()
+                } else {
+                    Text("Import")
+                }
             }
         }
     }

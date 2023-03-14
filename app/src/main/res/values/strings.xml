@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Walle</string>
+    <string name="wallet">Wallet</string>
+    <string name="discover">Discover</string>
+    <string name="settings">Settings</string>
+    <string name="wallet_id">0</string>
+    <string name="settings_id">1</string>
+    <string name="discover_id">2</string>
+
 </resources>

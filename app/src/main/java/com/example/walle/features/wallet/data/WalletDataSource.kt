@@ -1,9 +1,12 @@
 package com.example.walle.features.wallet.data
 
 import com.example.walle.features.wallet.data.model.WalletModel
+import kotlinx.coroutines.flow.Flow
 
 
 interface WalletDataSource {
+
+    val defaultWallet: Flow<WalletModel>
 
     suspend fun getDefaultWallet(): WalletModel
 

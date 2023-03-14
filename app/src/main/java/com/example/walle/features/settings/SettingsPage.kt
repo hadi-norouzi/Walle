@@ -4,18 +4,20 @@ import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.walle.R
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsPage() {
+fun SettingsPage(navController: NavController) {
 
     Scaffold(
         topBar = {
@@ -27,17 +29,18 @@ fun SettingsPage() {
         }
     ) {
 
-        Column {
+        Column(modifier = Modifier.padding(it)) {
 
             SettingItem(
                 icon = R.drawable.ic_wallet,
                 onClick = {
 
+                    navController.navigate("/wallets")
                 },
             ) {
                 Column {
                     Text("Wallets")
-                    Text("Wallet 1", style = MaterialTheme.typography.caption)
+                    Text("Wallet 1", style = MaterialTheme.typography.bodySmall)
                 }
             }
             Divider()
@@ -46,39 +49,39 @@ fun SettingsPage() {
                 onClick = {
 
                 },
-            ) {}
+            )
             SettingItem(
-                icon = R.drawable.qr_code, text = "WalletConnect",
+                text = "WalletConnect",
                 onClick = {
 
                 },
-            ) {}
+            )
             Divider()
             SettingItem(
-                icon = R.drawable.qr_code, text = "Preferences",
+                text = "Preferences",
                 onClick = {
 
                 },
-            ) {}
+            )
             SettingItem(
-                icon = R.drawable.qr_code, text = "Security",
+                text = "Security",
                 onClick = {
 
                 },
-            ) {}
+            )
             Divider()
             SettingItem(
-                icon = R.drawable.qr_code, text = "Help Center",
+                text = "Help Center",
                 onClick = {
 
                 },
-            ) {}
+            )
             SettingItem(
-                icon = R.drawable.qr_code, text = "About",
+                icon = R.drawable.info_ic, text = "About",
                 onClick = {
 
                 },
-            ) {}
+            )
         }
     }
 }
@@ -86,10 +89,10 @@ fun SettingsPage() {
 @Composable
 fun SettingItem(
 
-    @DrawableRes icon: Int,
+    @DrawableRes icon: Int? = null,
     text: String? = null,
     onClick: () -> Unit,
-    content: @Composable (() -> Unit)?
+    content: @Composable (() -> Unit)? = null
 ) {
 
     Row(
@@ -100,12 +103,15 @@ fun SettingItem(
             .height(40.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-//        Icon(
-//            painter = painterResource(id = icon),
-//            contentDescription = "icon",
-//            modifier = Modifier.size(26.dp),
-//        )
-        Box(modifier = Modifier.width(8.dp))
+        if (icon != null)
+            Row {
+                Icon(
+                    painter = painterResource(id = icon),
+                    contentDescription = "icon",
+                    modifier = Modifier.size(26.dp),
+                )
+                Box(modifier = Modifier.width(12.dp))
+            }
         if (text != null) Text(text)
         if (content != null) {
             content()
@@ -118,5 +124,5 @@ fun SettingItem(
 @Preview
 @Composable
 fun SettingPage_Preview() {
-    SettingsPage()
+    SettingsPage(rememberNavController())
 }

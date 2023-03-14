@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Walle" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="NightAdjusted.Theme.Walle" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
 
+    </style>
+
+    <style name="PlatformAdjusted.Theme.Walle" parent="NightAdjusted.Theme.Walle">
+        <item name="android:statusBarColor">@color/black30</item>
+    </style>
+
+    <style name="Theme.Walle" parent="PlatformAdjusted.Theme.Walle" />
+
+    <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+
+    <style name="Theme.Walle.Splash" parent="NightAdjusted.Theme.Splash">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/bg_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.Walle</item>
     </style>
 </resources>

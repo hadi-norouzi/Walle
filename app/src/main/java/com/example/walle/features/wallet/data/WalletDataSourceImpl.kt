@@ -2,8 +2,11 @@ package com.example.walle.features.wallet.data
 
 import com.example.walle.core.database.WalletDao
 import com.example.walle.features.wallet.data.model.WalletModel
+import kotlinx.coroutines.flow.Flow
 
 class WalletDataSourceImpl(private val walletDao: WalletDao) : WalletDataSource {
+
+    override val defaultWallet: Flow<WalletModel> = walletDao.getDefaultWallet()
 
     override suspend fun getDefaultWallet(): WalletModel {
         val wallets = walletDao.getWallets()
