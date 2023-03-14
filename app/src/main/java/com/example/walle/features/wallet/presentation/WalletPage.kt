@@ -56,65 +56,31 @@ fun WalletPage(
                         IconButton(
                             onClick = { /*TODO*/ },
                         ) {
-                            Icon(Icons.Default.Settings, contentDescription = "")
+                            Icon(
+                                painterResource(id = WalleIcons.Configure),
+                                contentDescription = ""
+                            )
                         }
                     }
 
-                    Text("10,000")
+                    Text("$10,000", style = MaterialTheme.typography.headlineLarge)
                     if (currentWallet is WalletState.Success) {
-                        Text((currentWallet as WalletState.Success).wallet.name)
+                        Text(
+                            (currentWallet as WalletState.Success).wallet.name,
+                            style = MaterialTheme.typography.labelMedium,
+                            modifier = Modifier.padding(top = 8.dp, bottom = 12.dp)
+                        )
                     }
                     Row(
                         modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
                             .padding(vertical = 12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                     ) {
-                        FilledIconToggleButton(
-                            checked = true,
-                            enabled = true,
-                            onCheckedChange = {},
-                            colors = IconButtonDefaults.iconToggleButtonColors(
-                                checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            ),
-                        ) {
-                            Icon(Icons.Default.KeyboardArrowUp, contentDescription = "")
-                        }
-                        FilledIconToggleButton(
-                            checked = true,
-                            enabled = true,
-                            onCheckedChange = {},
-                            colors = IconButtonDefaults.iconToggleButtonColors(
-                                checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            ),
-                        ) {
-                            Icon(Icons.Default.KeyboardArrowDown, contentDescription = "")
-                        }
-                        FilledIconToggleButton(
-                            checked = true,
-                            enabled = true,
-                            onCheckedChange = {},
-                            colors = IconButtonDefaults.iconToggleButtonColors(
-                                checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            ),
-                        ) {
-                            Icon(painterResource(id = WalleIcons.Buy), contentDescription = "")
-                        }
-                        FilledIconToggleButton(
-                            checked = true,
-                            enabled = true,
-                            onCheckedChange = {},
-                            colors = IconButtonDefaults.iconToggleButtonColors(
-                                checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            ),
-                        ) {
-                            Icon(painterResource(id = WalleIcons.Swap), contentDescription = "")
-                        }
-
+                        ActionButton(icon = WalleIcons.Send, title = "Send")
+                        ActionButton(icon = WalleIcons.Receive, title = "Receive")
+                        ActionButton(icon = WalleIcons.Buy, title = "Buy")
+                        ActionButton(icon = WalleIcons.Swap, title = "Swap")
                     }
 
                 }
@@ -124,8 +90,7 @@ fun WalletPage(
     ) {
 
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
@@ -137,20 +102,44 @@ fun WalletPage(
                         .clickable {
 //                            navController.navigate("/phrase/import")
                         }
-                        .padding(12.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
 
 
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.bitcoin),
                         contentDescription = "bit",
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(36.dp)
                     )
                     Box(modifier = Modifier.width(8.dp))
                     Text("Bitcoin")
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ActionButton(icon: Int, title: String) {
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FilledIconToggleButton(
+            checked = true,
+            enabled = true,
+            onCheckedChange = {},
+            colors = IconButtonDefaults.iconToggleButtonColors(
+                checkedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                checkedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            ),
+        ) {
+            Icon(
+                painterResource(id = icon),
+                contentDescription = ""
+            )
+        }
+        Text(title, style = MaterialTheme.typography.labelSmall)
     }
 }
 

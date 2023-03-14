@@ -15,6 +15,7 @@ import com.example.walle.features.discover.DiscoverPage
 import com.example.walle.features.settings.SettingsPage
 import com.example.walle.features.settings.WalletsPage
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.walle.features.discover.WebBrowser
 import com.example.walle.features.wallet.presentation.WalletPage
 
 
@@ -54,13 +55,16 @@ fun HomePage(navController: NavController, viewModel: HomeViewModel = viewModel(
                 WalletPage()
             }
             composable("/discover") {
-                DiscoverPage()
+                DiscoverPage(homeNavController)
             }
             composable("/settings") {
                 SettingsPage(homeNavController)
             }
             composable("/wallets") {
                 WalletsPage()
+            }
+            composable("/web_browser") {
+                WebBrowser(homeNavController, "https://google.com/search?q=hello")
             }
         }
     }

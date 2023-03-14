@@ -15,6 +15,10 @@ object WalleIcons {
     /// Wallet page icons
     const val Buy = R.drawable.credit_card_ic
     const val Swap = R.drawable.swap_horiz_ic
+    const val Receive = R.drawable.arrow_downward_ic
+    const val Send = R.drawable.arrow_upward_ic
+
+    const val Configure = R.drawable.tune_ic
 
 
 }
