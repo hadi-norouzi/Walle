@@ -11,6 +11,7 @@ sealed class Screen(val route: String) {
     object Wallet : Screen("wallet")
     object CreatePhrase : Screen("create_phrase")
     object ChooseCoin : Screen("choose_coin")
+    object Home : Screen("home")
 
 
 }

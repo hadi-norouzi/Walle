@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.walle.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -91,8 +92,8 @@ fun PhrasesPage(
                 OutlinedButton(
                     onClick = {
                         viewModel.createWallet()
-                        navController.navigate("/home") {
-                            popUpTo("/intro") { inclusive = true }
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Intro.route) { inclusive = true }
                         }
                     },
                     modifier = Modifier.fillMaxWidth()
