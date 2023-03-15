@@ -22,6 +22,7 @@ import com.example.walle.features.create.PhrasesPage
 import com.example.walle.features.home.presentation.HomePage
 import com.example.walle.features.import.presentation.ChooseCoinPage
 import com.example.walle.features.import.presentation.ImportWalletPage
+import com.example.walle.navigation.NavigationGraph
 import com.example.walle.ui.theme.WalleTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -47,37 +48,37 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-
-                    NavHost(navController = navController, startDestination = "/intro") {
-
-                        composable("/intro") {
-                            IntroPage(navController)
-                        }
-                        composable("/phrase/create") {
-                            PhrasesPage(navController = navController)
-                        }
-                        composable(
-                            "/phrase/import?type={value}",
-                            arguments = listOf(
-                                navArgument("value") {
-                                    type = NavType.StringType
-                                },
-                            ),
-                        ) {
-                            ImportWalletPage(navController, it.arguments?.getString("value"))
-                        }
-                        composable("/home") {
-                            HomePage(navController)
-                        }
-                        composable("/qr_code") {
-                            QrCodeScanner(navController)
-                        }
-                        composable("/choose_currency") {
-                            ChooseCoinPage(navController)
-                        }
-
-
-                    }
+                    NavigationGraph()
+//                    NavHost(navController = navController, startDestination = "/intro") {
+//
+//                        composable("/intro") {
+//                            IntroPage(navController)
+//                        }
+//                        composable("/phrase/create") {
+//                            PhrasesPage(navController = navController)
+//                        }
+//                        composable(
+//                            "/phrase/import?type={value}",
+//                            arguments = listOf(
+//                                navArgument("value") {
+//                                    type = NavType.StringType
+//                                },
+//                            ),
+//                        ) {
+//                            ImportWalletPage(navController, it.arguments?.getString("value"))
+//                        }
+//                        composable("/home") {
+//                            HomePage(navController)
+//                        }
+//                        composable("/qr_code") {
+//                            QrCodeScanner(navController)
+//                        }
+//                        composable("/choose_currency") {
+//                            ChooseCoinPage(navController)
+//                        }
+//
+//
+//                    }
                 }
             }
         }

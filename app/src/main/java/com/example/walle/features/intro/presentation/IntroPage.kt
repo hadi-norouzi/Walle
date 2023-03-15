@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.walle.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +37,7 @@ fun IntroPage(navController: NavController) {
             Column(modifier = Modifier.padding(16.dp)) {
                 OutlinedButton(
                     onClick = {
-                        navController.navigate("/phrase/create")
+                        navController.navigate(Screen.CreatePhrase.route)
                     },
                     modifier = Modifier.fillMaxWidth(1f),
                 ) {
@@ -44,7 +45,7 @@ fun IntroPage(navController: NavController) {
                 }
                 OutlinedButton(
                     onClick = {
-                        navController.navigate("/choose_currency")
+                        navController.navigate(Screen.ChooseCoin.route)
 
                     },
                     modifier = Modifier.fillMaxWidth(1f),
