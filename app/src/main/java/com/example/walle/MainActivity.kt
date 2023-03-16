@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,6 +34,11 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         System.loadLibrary("TrustWalletCore")
+
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+
         setContent {
             val navController = rememberNavController()
             val systemUiController = rememberSystemUiController()
@@ -42,6 +48,7 @@ class MainActivity : ComponentActivity() {
                 systemUiController.systemBarsDarkContentEnabled = !darkTheme
                 onDispose {}
             }
+
 
             WalleTheme {
                 // A surface container using the 'background' color from the theme
