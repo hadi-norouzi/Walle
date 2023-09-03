@@ -1,6 +1,7 @@
-package com.example.walle.features.discover
+package com.example.walle.features.discover.presentation
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,20 +9,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DiscoverPage(navController: NavController) {
+fun DiscoverPage(navController: NavController, viewModel: DiscoveryViewModel = koinViewModel()) {
+
+
+    val histories = viewModel.browsingHistory.collectAsState(initial = listOf())
 
     val search = remember { mutableStateOf("") }
 
@@ -46,8 +52,16 @@ fun DiscoverPage(navController: NavController) {
                 Icon(Icons.Default.Search, contentDescription = "")
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(onSearch = { navController.navigate("/web_browser") })
+            keyboardActions = KeyboardActions(
+                onSearch = { navController.navigate("/web_browser?url=${search.value}") },
+            )
         )
+        LazyColumn {
+            items(histories.value.count()) {
+
+                Text(histories.value[it].name)
+            }
+        }
     }
 
 }

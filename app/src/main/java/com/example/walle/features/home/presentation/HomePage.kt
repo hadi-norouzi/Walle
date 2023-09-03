@@ -11,11 +11,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.walle.features.discover.DiscoverPage
+import com.example.walle.features.discover.presentation.DiscoverPage
 import com.example.walle.features.settings.SettingsPage
 import com.example.walle.features.settings.WalletsPage
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.walle.features.discover.WebBrowser
+import com.example.walle.features.discover.presentation.WebBrowser
 import com.example.walle.features.wallet.presentation.WalletPage
 
 
@@ -63,8 +63,8 @@ fun HomePage(navController: NavController, viewModel: HomeViewModel = viewModel(
             composable("/wallets") {
                 WalletsPage()
             }
-            composable("/web_browser") {
-                WebBrowser(homeNavController, "https://google.com/search?q=hello")
+            composable("/web_browser?url={url}") { s ->
+                WebBrowser(homeNavController, s.arguments?.getString("url") ?: "https://duckduckgo.com")
             }
         }
     }

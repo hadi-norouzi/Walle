@@ -1,10 +1,8 @@
-package com.example.walle.features.discover
+package com.example.walle.features.discover.presentation
 
-import android.os.Build
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -15,10 +13,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WebBrowser(navController: NavController, url: String) {
+fun WebBrowser(navController: NavController, url: String, viewModel: WebBrowserViewModel = koinViewModel()) {
 
     val context = LocalContext.current
 
@@ -46,6 +45,7 @@ fun WebBrowser(navController: NavController, url: String) {
                     settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
                     settings.blockNetworkLoads = false
                     loadUrl(url)
+                    viewModel.saveUrl(url)
                 }
             },
             modifier = Modifier.padding(it),

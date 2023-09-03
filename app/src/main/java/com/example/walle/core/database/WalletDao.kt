@@ -1,5 +1,6 @@
 package com.example.walle.core.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -11,11 +12,11 @@ import kotlinx.coroutines.flow.Flow
 interface WalletDao {
 
     @Query("select * from wallets")
-    suspend fun getWallets(): List<WalletModel>
+    fun getWallets(): List<WalletModel>
 
     @Query("select * from wallets where isDefault = true")
     fun getDefaultWallet(): Flow<WalletModel>
 
     @Insert
-    suspend fun insertWallet(wallet: WalletModel)
+    fun insertWallet(wallet: WalletModel)
 }

@@ -3,6 +3,7 @@ package com.example.walle.features.wallet.data
 import com.example.walle.core.database.WalletDao
 import com.example.walle.features.wallet.data.model.WalletModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class WalletDataSourceImpl(private val walletDao: WalletDao) : WalletDataSource {
 
