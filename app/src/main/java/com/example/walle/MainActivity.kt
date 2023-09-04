@@ -10,6 +10,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
@@ -24,6 +27,8 @@ import com.example.walle.features.import.presentation.ChooseCoinPage
 import com.example.walle.features.import.presentation.ImportWalletPage
 import com.example.walle.ui.theme.WalleTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import org.koin.androidx.compose.koinViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -36,11 +41,14 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val systemUiController = rememberSystemUiController()
             val darkTheme = isSystemInDarkTheme()
+            val viewModel: MainViewModel = koinViewModel()
+            val hasWallet = viewModel.hasWallet.collectAsState(initial = false)
 
             DisposableEffect(systemUiController, darkTheme) {
                 systemUiController.systemBarsDarkContentEnabled = !darkTheme
                 onDispose {}
             }
+
 
             WalleTheme {
                 // A surface container using the 'background' color from the theme
@@ -48,7 +56,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                 ) {
 
-                    NavHost(navController = navController, startDestination = "/intro") {
+                    NavHost(navController = navController, startDestination = if (hasWallet.value) "/home" else "/intro" ) {
 
                         composable("/intro") {
                             IntroPage(navController)

@@ -12,7 +12,7 @@ class WalletDataSourceImpl(private val walletDao: WalletDao) : WalletDataSource 
     override suspend fun getDefaultWallet(): WalletModel {
         val wallets = walletDao.getWallets()
         if (wallets.isEmpty()) {
-            throw java.lang.Exception("Wallet is Empty")
+            throw WalletNotFound()
         }
         val foundWallet = wallets.find { it.isDefault }
 
@@ -31,3 +31,5 @@ class WalletDataSourceImpl(private val walletDao: WalletDao) : WalletDataSource 
         TODO("Not yet implemented")
     }
 }
+
+class WalletNotFound: Exception()

@@ -2,6 +2,7 @@ package com.example.walle.di
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.walle.MainViewModel
 import com.example.walle.core.database.AppDatabase
 import com.example.walle.core.database.WalletDao
 import com.example.walle.features.create.PhrasesViewModel
@@ -29,12 +30,14 @@ val appModule = module {
 
     single { Room.databaseBuilder(get(), AppDatabase::class.java, "walle_database").allowMainThreadQueries().build() }
 
+
     single { get<AppDatabase>().walletDao() }
     single { get<AppDatabase>().discoveryDao() }
 
     single<WalletDataSource> { WalletDataSourceImpl(get()) }
     single<WalletRepository> { WalletRepositoryImpl(get()) }
 
+    viewModel { MainViewModel(get()) }
     viewModel { WalletViewModel(get()) }
 
     single<PhraseLocalDataSource> { PhraseLocalDataSourceImpl(get()) }
