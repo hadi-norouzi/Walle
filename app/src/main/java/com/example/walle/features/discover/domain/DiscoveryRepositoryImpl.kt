@@ -1,5 +1,6 @@
 package com.example.walle.features.discover.domain
 
+import android.net.Uri
 import com.example.walle.features.discover.data.DiscoveryDataSource
 import com.example.walle.features.discover.data.HistoryEntity
 import com.example.walle.features.discover.data.fromModel
@@ -11,13 +12,21 @@ class DiscoveryRepositoryImpl(
 ) : DiscoveryRepository {
 
 
-    override fun getAllHistory(): Flow<List<History>> = dataSource.getHistory().map {
+    override val allHistory: Flow<List<History>> = dataSource.getHistory().map {
         it.map { model -> model.fromModel() }
     }
 
     override fun storeHistory(history: History) {
+        val historyCopy: History
+        val icon =
+            Uri.Builder()
+                .scheme("https")
+                .authority(history.url.toString())
+                .path("favicon.ico")
+                .clearQuery().build()
+        historyCopy = history.copy(icon = icon)
         dataSource.storeHistory(
-            history.toEntity()
+            historyCopy.toEntity()
         )
     }
 }

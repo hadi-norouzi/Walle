@@ -2,6 +2,7 @@ package com.example.walle.features.discover.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,13 +55,23 @@ fun DiscoverPage(navController: NavController, viewModel: DiscoveryViewModel = k
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
-                onSearch = { navController.navigate("/web_browser?url=${search.value}") },
+                onSearch = {
+                    navController.navigate("/web_browser?url=${search.value}")
+                },
             )
         )
-        LazyColumn {
-            items(histories.value.count()) {
+        LazyColumn(
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(histories.value) {
 
-                Text(histories.value[it].name)
+                HistoryItem(
+                    history = it,
+                    onTap = {
+                        navController.navigate("/web_browser?url${it.url}")
+                    },
+                )
             }
         }
     }

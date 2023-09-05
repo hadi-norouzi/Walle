@@ -1,5 +1,6 @@
 package com.example.walle.features.discover.presentation
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.walle.features.discover.domain.DiscoveryRepository
@@ -9,7 +10,7 @@ import java.util.Date
 
 class WebBrowserViewModel(
     private val repository: DiscoveryRepository
-): ViewModel() {
+) : ViewModel() {
 
     init {
 
@@ -18,7 +19,11 @@ class WebBrowserViewModel(
     fun saveUrl(url: String) {
         viewModelScope.launch {
             repository.storeHistory(
-                History(name = url, createdAt = Date(System.currentTimeMillis()))
+                History(
+                    name = url,
+                    createdAt = Date(System.currentTimeMillis()),
+                    url = Uri.parse(url),
+                )
             )
         }
     }

@@ -9,6 +9,7 @@ import com.example.walle.features.wallet.data.WalletRepository
 import com.example.walle.features.wallet.domain.entity.Wallet
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -19,14 +20,20 @@ class WalletViewModel constructor(
 
 
     val currentWallet: StateFlow<WalletState> =
-        walletRepository.selectedWallet.map { WalletState.Success(it) }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = WalletState.Loading,
-        )
+        walletRepository.selectedWallet
+            .catch { _ -> WalletState.Empty }
+            .map { WalletState.Success(it) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = WalletState.Loading,
+            )
+
+
 }
 
 sealed interface WalletState {
-    object Loading : WalletState
+    data object Loading : WalletState
     class Success(val wallet: Wallet) : WalletState
+    data object Empty: WalletState
 }

@@ -2,6 +2,7 @@ package com.example.walle.core.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.walle.features.wallet.data.model.WalletModel
@@ -19,4 +20,7 @@ interface WalletDao {
 
     @Insert
     fun insertWallet(wallet: WalletModel)
+
+    @Delete
+    fun delete(wallet: WalletModel)
 }

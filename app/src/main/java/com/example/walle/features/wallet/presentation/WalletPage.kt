@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -32,6 +33,16 @@ fun WalletPage(
     viewModel: WalletViewModel = koinViewModel()
 ) {
     val currentWallet by viewModel.currentWallet.collectAsState()
+
+
+    LaunchedEffect(key1 = currentWallet) {
+//        when(currentWallet) {
+//            WalletState.Empty ->
+//            WalletState.Loading -> TODO()
+//            is WalletState.Success -> TODO()
+//        }
+    }
+
     val list = listOf(
         "A", "B", "C", "D"
     ) + ((0..100).map { it.toString() })

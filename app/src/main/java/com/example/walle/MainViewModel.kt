@@ -15,14 +15,17 @@ class MainViewModel(
     private val repository: WalletRepository
 ) : ViewModel() {
 
-    val hasWallet: Flow<Boolean> = flow {
-        try {
-            viewModelScope.launch {
-                repository.selectedWallet.collect()
-            }
-            emit(true)
-        } catch (e: WalletNotFound) {
-            emit(false)
-        }
-    }
+    val hasWallet: Flow<Boolean> = repository.selectedWallet
+        .catch { false }
+        .map { true }
+//        flow {
+//        try {
+//            viewModelScope.launch {
+//                repository.selectedWallet.collect()
+//                emit(true)
+//            }
+//        } catch (e: WalletNotFound) {
+//            emit(false)
+//        }
+//    }
 }

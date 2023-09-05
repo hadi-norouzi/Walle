@@ -1,13 +1,20 @@
 package com.example.walle.features.wallet.data
 
+import com.example.walle.core.Coin
+import com.example.walle.core.bitcoin.Bitcoin
 import com.example.walle.core.database.WalletDao
 import com.example.walle.features.wallet.data.model.WalletModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import wallet.core.jni.CoinType
 
 class WalletDataSourceImpl(private val walletDao: WalletDao) : WalletDataSource {
 
     override val defaultWallet: Flow<WalletModel> = walletDao.getDefaultWallet()
+    override suspend fun getSupportedCoins(mnemonic: List<String>): Flow<List<Coin>> = flow {
+        emit(getStaticSupportedCoins(mnemonic))
+    }
+
 
     override suspend fun getDefaultWallet(): WalletModel {
         val wallets = walletDao.getWallets()
@@ -24,11 +31,17 @@ class WalletDataSourceImpl(private val walletDao: WalletDao) : WalletDataSource 
     }
 
     override suspend fun getWallets(): List<WalletModel> {
-        TODO("Not yet implemented")
+        return walletDao.getWallets()
     }
 
     override suspend fun deleteWallet(wallet: WalletModel) {
-        TODO("Not yet implemented")
+        walletDao.delete(wallet)
+    }
+
+    private fun getStaticSupportedCoins(mnemonic: List<String>): List<Coin> {
+        return listOf(
+            Bitcoin(mnemonic),
+        )
     }
 }
 

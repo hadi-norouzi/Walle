@@ -4,7 +4,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface DiscoveryRepository {
 
-    fun getAllHistory(): Flow<List<History>>
+    val allHistory: Flow<List<History>>
+
 
     fun storeHistory(history: History)
 }

@@ -4,10 +4,11 @@ import com.example.walle.features.wallet.data.WalletDataSource
 import com.example.walle.features.wallet.data.WalletRepository
 import com.example.walle.features.wallet.domain.entity.Wallet
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
-class WalletRepositoryImpl constructor(private val walletDataSource: WalletDataSource) :
+class WalletRepositoryImpl constructor(
+    private val walletDataSource: WalletDataSource,
+) :
     WalletRepository {
 
 
@@ -15,6 +16,8 @@ class WalletRepositoryImpl constructor(private val walletDataSource: WalletDataS
         .map {
             Wallet(it.name)
         }
+    override val supportedCoins: Flow<List<CoinEntity>>
+        get() = TODO("Not yet implemented")
 
 
     override suspend fun getDefaultWallet(): Wallet {
