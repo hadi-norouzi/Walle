@@ -12,5 +12,4 @@ data class WalletModel(
     val name: String,
     val privateKey: String,
     val isDefault: Boolean = false,
-    val coins: List<Coin>
 )

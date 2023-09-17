@@ -2,6 +2,7 @@ package com.example.walle.features.wallet.domain
 
 import com.example.walle.features.wallet.data.WalletDataSource
 import com.example.walle.features.wallet.data.WalletRepository
+import com.example.walle.features.wallet.data.model.Coin
 import com.example.walle.features.wallet.domain.entity.Wallet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,7 +17,7 @@ class WalletRepositoryImpl constructor(
         .map {
             Wallet(it.name)
         }
-    override val supportedCoins: Flow<List<CoinEntity>>
+    override val supportedCoins: Flow<List<Coin>>
         get() = TODO("Not yet implemented")
 
 

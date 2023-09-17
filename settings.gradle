@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Walle"
 include ':app'
+include ':data:model'
+include ':data:database'

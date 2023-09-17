@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 @Composable
 fun WalletsPage() {
     Scaffold {
-        Column(modifier = Modifier.padding(it)) {
+        Column(
+            modifier = Modifier.padding(it),
+        ) {
 
         }
     }
