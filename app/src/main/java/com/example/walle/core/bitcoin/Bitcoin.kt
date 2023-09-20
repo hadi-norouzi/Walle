@@ -1,18 +1,26 @@
 package com.example.walle.core.bitcoin
 
 import com.example.walle.core.Coin
+import com.example.walle.core.Util.fromHexString
+import com.example.walle.core.model.TxField
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
 import wallet.core.jni.HDWallet
 import wallet.core.jni.PrivateKey
 import wallet.core.jni.PublicKey
 
-class Bitcoin constructor(
+class Bitcoin(
     mnemonics: List<String>,
 ) : Coin() {
 
-    private val mPrivateKey: PrivateKey = generatePrivateKey(mnemonics)
-    private val mPublicKey = generatePublicKey(mnemonics)
+    private var mPrivateKey: PrivateKey = generatePrivateKey(mnemonics)
+    private var mPublicKey = generatePublicKey(mnemonics)
+
+    constructor(privateKey: String) : this(mutableListOf()) {
+        val bytes: ByteArray = fromHexString(privateKey)
+        mPrivateKey = PrivateKey(bytes)
+        mPublicKey = this.mPrivateKey.getPublicKeySecp256k1(true)
+    }
 
 
     companion object {
@@ -51,4 +59,7 @@ class Bitcoin constructor(
         get() = CoinType.BITCOIN
 
     override val decimals: Int = 8
+
+    override val transactionFields: List<TxField?>
+        get() = mutableListOf()
 }

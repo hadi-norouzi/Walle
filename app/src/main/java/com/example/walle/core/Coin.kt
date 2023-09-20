@@ -1,5 +1,7 @@
 package com.example.walle.core
 
+import com.example.walle.core.model.CoinInfo
+import com.example.walle.core.model.TxField
 import wallet.core.jni.CoinType
 
 abstract class Coin {
@@ -19,4 +21,18 @@ abstract class Coin {
     abstract val networkName: String
 
     abstract val coinType: CoinType
+
+    abstract val transactionFields: List<TxField?>
+
+    open fun getInfo(): CoinInfo? {
+        return CoinInfo(
+            name = name,
+            iso = iso,
+            address = address,
+            decimals = decimals,
+            privateKey = privateKey,
+            publicKey = publicKey,
+            transactionFields = transactionFields,
+        )
+    }
 }
